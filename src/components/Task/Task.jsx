@@ -27,7 +27,7 @@ const Task = ({ task }) => {
     try {
       await axiosPrivate.delete(`/tasks/${task.id}`);
       getTasks();
-      Toast.success("Task have been deleted successfully!");
+      Toast.success("Task deleted successfully!");
     } catch (error) {
       console.error("Failed to delete task", error);
       Toast.error("Error: could not delete task");
@@ -42,9 +42,7 @@ const Task = ({ task }) => {
       setIsCompleted(newStatus);
       getTasks();
       Toast.success(
-        `Task have been ${
-          isCompleted ? "uncompleted" : "completed"
-        } successfully!`
+        `Task ${newStatus ? "completed" : "uncompleted"} successfully!`
       );
     } catch (error) {
       console.error("Failed to mark task as completed", error);
@@ -62,11 +60,11 @@ const Task = ({ task }) => {
       setIsStarred(newStatus);
       getTasks();
       Toast.success(
-        `Task have been ${isStarred ? `unstarred` : "starred"} successfully!`
+        `Task ${newStatus ? "starred" : "unstarred"} successfully!`
       );
     } catch (error) {
       console.error("Failed to mark task as starred", error);
-      Toast.error(`Error: could not ${isStarred ? `unstar` : "star"} task`);
+      Toast.error(`Error: could not ${isStarred ? "unstar" : "star"} task`);
     }
   };
 
@@ -75,7 +73,7 @@ const Task = ({ task }) => {
       await axiosPrivate.put(`/tasks/${task.id}/archive`, {
         isArchived: newStatus,
       });
-      getTasks(); // Refresh the tasks
+      getTasks();
       setIsArchived(newStatus);
       Toast.success(
         `Task ${newStatus ? "archived" : "unarchived"} successfully!`
@@ -113,42 +111,30 @@ const Task = ({ task }) => {
         <button
           className={styles.deleteBtn}
           title="Delete task"
-          onClick={() => {
-            setShowConfirm(true);
-          }}
+          onClick={() => setShowConfirm(true)}
         >
           <FontAwesomeIcon icon={faTrash} />
         </button>
         <button
-          className={styles.completeBtn}
+          className={`${styles.completeBtn} ${isCompleted ? styles.completed : ""}`}
           title="Complete/Uncomplete task"
-          style={{ backgroundColor: `${isCompleted ? " #4caf50" : "gray"}` }}
-          onClick={() => {
-            toggleCompleteTask(!isCompleted);
-          }}
+          onClick={() => toggleCompleteTask(!isCompleted)}
         >
           <FontAwesomeIcon icon={faCheck} />
         </button>
         <button
-          className={styles.starBtn}
+          className={`${styles.starBtn} ${isStarred ? styles.starred : ""}`}
           title="Star/Unstar task"
-          onClick={() => {
-            toggleStarTask(!isStarred);
-          }}
+          onClick={() => toggleStarTask(!isStarred)}
         >
-          <FontAwesomeIcon
-            icon={faStar}
-            style={{ color: `${isStarred ? "gold" : "black"}` }}
-          />
+          <FontAwesomeIcon icon={faStar} />
         </button>
         <button
           className={`${styles.archiveBtn} ${
             task.archived_status ? styles.archived : ""
           }`}
           title="Archive/Unarchive task"
-          onClick={() => {
-            toggleArchiveTask(!isArchived);
-          }}
+          onClick={() => toggleArchiveTask(!isArchived)}
         >
           <FontAwesomeIcon icon={faArchive} />
         </button>

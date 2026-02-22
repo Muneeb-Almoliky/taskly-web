@@ -1,88 +1,178 @@
 .sidebar {
-  min-width: 300px;
-  background-color: var(--container-bg-color) !important;
+  width: 56px;
+  min-width: 56px;
+  background-color: var(--bg-secondary);
   position: relative;
-  margin-left: -265px;
-  transition: margin 0.5s ease-in-out;
-  margin-top: 90px;
-  border-radius: 10px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  margin-top: 56px;
+  transition: width 0.25s ease, min-width 0.25s ease;
+  border-right: 1px solid var(--border);
   z-index: 9;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
+.sidebar > * {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.sidebarActive {
+  width: 260px;
+  min-width: 260px;
+}
+
+.sidebarActive > * {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
+}
+
+/* Hamburger: top right of sidebar on desktop when open, perfectly boxed in mini 56px sidebar when closed. Fixed in header on mobile */
 .hamburger {
-  position: absolute;
-  width: 48px;
-  top: 12px;
-  right: -5px;
-  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 56px;
+  height: 56px;
+  z-index: 200;
+  color: var(--text-primary);
+  transition: left 0.25s ease;
+}
+
+.hamburgerOpen {
+  left: 204px;
+}
+
+:global(.search-active) .hamburger {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .sidebar h2 {
-  margin-left: 15px;
-  margin-block: 20px;
+  margin-left: 16px;
+  margin-block: 16px;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .sidebar ul {
-  margin-top: 3rem;
+  margin-top: 8px;
   list-style-type: none;
-  padding: 0;
-  display: grid;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .sidebar nav ul li {
-  margin: 10px 0;
+  margin: 0;
+  border-radius: var(--radius-sm);
 }
 
 .sidebar nav ul li a {
   text-decoration: none;
-  color: var(--text-color);
-  font-weight: bold;
-  display: block;
-  padding: 10px 20px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  transition: all var(--ease);
 }
 
 .sidebar nav ul li a:hover {
-  background-color: var(--bg-color-hover);
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
 }
 
 .sidebar li.active {
-  background-color: var(--bg-color-hover);
+  background-color: transparent;
 }
 
+.sidebar li.active a {
+  color: var(--accent);
+  background-color: var(--accent-subtle);
+  font-weight: 600;
+}
+
+.sidebar nav {
+  flex: 1;
+  padding-bottom: 16px;
+  margin-top: 24px;
+}
+
+
+
+/* Overlay when sidebar is open on mobile */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 51;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Tablet & mobile */
 @media (max-width: 1000px) {
+  .hamburger {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: auto;
+    transition: none; /* No sliding on mobile */
+  }
+  .hamburgerOpen {
+    left: 0;
+  }
+  
   .sidebar {
-    position: absolute;
-    top: 0px;
+    position: fixed;
+    top: 56px;
     bottom: 0;
+    left: 0;
+    width: 260px;
+    min-width: 260px;
+    margin-left: 0;
+    margin-top: 0;
+    z-index: 52;
+    transition: transform 0.25s ease;
+    transform: translateX(-100%);
   }
 
-  .sidebarActive + .overlay {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-color: #0000005d;
+  /* Show contents when sliding on mobile */
+  .sidebar > * {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebarActive {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    top: 48px;
+  }
+  .hamburger {
+    width: 48px;
+    height: 48px;
   }
 }
 
 @media (max-width: 410px) {
-  .sidebar {
-    margin-left: -320px;
-    top: -5.7rem;
-  }
-
   .hamburger {
-    top: 15px;
-    right: -62px;
+    width: 44px;
   }
-
-  .sidebarActive .hamburger {
-    right: 0;
-  }
-}
-
-.sidebarActive {
-  margin-left: -5px;
-  transform: translateX(0);
 }

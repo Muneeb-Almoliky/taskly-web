@@ -1,110 +1,108 @@
 .searchContainer {
-    display: flex;
-    align-items: center;
-    width: 30%;
-    color: var(--text-color);
-    position: relative;
-  }
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.searchInput {
+  padding: 6px 30px 6px 12px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  width: 200px;
+  transition: all var(--ease);
+  font-weight: 400;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+  width: 240px;
+}
+
+.searchContainer div {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding: 2px;
+}
+
+.searchContainer svg {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
   .searchInput {
-    padding: 0.3rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: var(--body-bg-color);
-    color: var(--text-color);
-    flex-grow: 1;
+    width: 0;
+    padding: 0;
+    border: none;
+    opacity: 0;
+    position: absolute;
   }
-  
+
+  /* Search icon button visible on mobile */
   .searchContainer div {
+    position: static;
+    transform: none;
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Full-screen overlay search when active */
+  .searchContainerActive {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    z-index: 205; /* Above the hamburger (z-index: 200) */
+    padding: 8px 12px;
     display: flex;
     align-items: center;
-    height: 33px;
-    border-radius:  0 4px 4px 0;
-    margin-left: -20%;
-  }
-  
-  .searchContainer svg {
-    color: gray;  
-  }
-  
-  [data-theme = "dark"] .searchInput::placeholder {
-    color: #ffffffd3;
-  }
-  
-  [data-theme = "dark"] .searchContainer svg {
-    color: #ffffffd3;
+    gap: 8px;
   }
 
-  @media (max-width: 700px) {
-      .searchInput {
-        margin: 0;
-        width: 0;
-        opacity: 0;
-        z-index: 99;
-      }
-
-      .searchContainerActive::before {
-        content: "";
-        position: absolute;
-        background-color: var(--container-bg-color);
-        left: -20rem;
-        right: -10rem;
-        top: -10rem;
-        bottom: -2rem;
-        z-index: 99;
-      }
-    
-      .searchContainerActive {
-        left: -10vw;
-        width: 60vw;
-      }
-    
-      .searchInputActive {
-        display: block;
-        height: 25px;
-        width: 100% ;
-        opacity: 1;
-        transition: all .3s;
-        position: relative;
-        padding-left: 3rem;
-      }
-
-     
-      .searchContainer div {
-        border: 1px solid #ccc;
-        background-color: var(--body-bg-color);
-        width: 30px;
-        height: 35px;
-        border-radius: 4px;
-        justify-content: center;
-        cursor: pointer;
-      }
-
-      .searchContainerActive div::before {
-        content: "";
-        background-color: gray;
-        mask-image: url("../../assets/thin-arrow-left-icon.svg");
-        mask-repeat: no-repeat;
-        mask-size: contain;
-        position: absolute;
-        top: 8px;
-        left: -40px;
-        height: 30px;
-        width: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ccc;
-        font-size: 2rem;
-        cursor: pointer;
-        z-index: 99;
-      }
-
-    }      
-    
-@media screen and (min-width: 410px) and (max-width: 500px) {
-  .searchContainerActive {
-    width: 80vw;
+  .searchContainerActive .searchInputActive {
+    display: block;
+    width: 100% !important;
+    opacity: 1;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    position: static;
+    flex: 1;
   }
-}     
-  
+
+  .searchContainerActive div {
+    position: static;
+    transform: none;
+    border: 1px solid var(--border);
+    background-color: var(--bg-hover);
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: var(--radius-sm);
+    justify-content: center;
+    order: -1;
+  }
+}

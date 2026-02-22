@@ -33,7 +33,7 @@ const ListHeader = () => {
 
   return (
     <div className={styles.listHeader}>
-      <h1>Task Manager</h1>
+      <h1>Taskly</h1>
      
       <div className={styles.buttonContainer}>
         <SearchBar />

@@ -1,86 +1,86 @@
-.title {
-  text-transform: capitalize;
-  margin-top: 70px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  background-color: var(--container-bg-color);
-  color: var(--text-color);
-  border-radius: 5px;
+.dashboard {
+  animation: fadeIn 0.2s ease;
 }
 
 .container {
-  background-color: var(--container-bg-color);
-  color: var(--text-color);
-  border-radius: 5px;
-  display: flex;
-  align-items: start;
-  flex-wrap: wrap;
-  
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(455px, 1fr));
-  gap: 2rem;
-  margin: 0;
-  max-height: calc(100vh - 240px);
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 16px;
+  max-height: calc(100vh - 230px);
   overflow-y: auto;
-  padding: 1rem;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 2px;
 }
 
 .chartContainer {
-  margin-top: 20px;
-  margin-bottom: 2rem;
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: var(--container-bg-color);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 330px;
-  max-height: 330px;
+  min-height: 300px;
+  max-height: 350px;
+  transition: border-color var(--ease);
+}
+
+.chartContainer:hover {
+  border-color: var(--border-strong);
 }
 
 .chartContainer canvas {
-  background-color: var(--body-bg-color);
+  background-color: transparent;
   max-width: 100%;
 }
 
 .taskStatistics,
 .tasksTotal {
   flex-grow: 1;
-  margin-top: 20px;
-  min-height: 330px;
+  min-height: 300px;
   display: flex;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   justify-content: center;
-  padding: 20px;
-  gap: 1rem;
-  background-color: var(--container-bg-color);
-  color: var(--text-color);
-  border-radius: 5px;
+  padding: 16px;
+  gap: 12px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease);
+}
+
+.taskStatistics:hover,
+.tasksTotal:hover {
+  border-color: var(--border-strong);
 }
 
 .taskStatistics div {
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
-  gap: 2rem;
+  gap: 12px;
 }
 
 .container span {
-  display: grid;
-  place-items: center;
-  height: 20px;
-  width: 30px;
-  border: 1px solid #ccc;
-  border-radius: 50% !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  min-width: 32px;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full) !important;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--accent);
+  background-color: var(--accent-subtle);
+  line-height: 1;
 }
 
 .tasksTotal span {
-  height: 50px;
-  width: 50px;
+  min-height: 44px;
+  min-width: 44px;
+  font-size: 16px;
+  padding: 4px 8px;
 }
 
 .taskStatistics span,
@@ -89,18 +89,19 @@
 }
 
 .tasksTotal > p {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 500;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  gap: 1rem;
-  border-radius: 5px;
-  min-height: 150px;
-  padding: 20px;
-  background: var(--body-bg-color);
+  gap: 12px;
+  border-radius: var(--radius-sm);
+  min-height: 140px;
+  padding: 16px;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .taskStatistics > * {
@@ -109,54 +110,54 @@
 }
 
 .taskStatistics div * {
-  font-weight: bold;
-  background-color: var(--body-bg-color);
-  color: var(--text-color);
-  border-radius: 5px;
-  padding: 15px 10px;
+  font-weight: 500;
+  font-size: 13px;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
   display: grid;
   place-items: center;
   text-align: center;
   flex-grow: 1;
+  transition: all var(--ease);
 }
 
-.toggleArchived {
-  margin: 10px 0;
-  padding: 8px 12px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.toggleArchived:hover {
-  background-color: #0056b3;
+.taskStatistics div p:hover {
+  background-color: var(--accent-subtle);
+  color: var(--accent);
 }
 
 .tippy {
-  background-color: var(--body-bg-color);
-  color: var(--text-color);
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-md) !important;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 @media (max-width: 700px) {
   .dashboard .container {
-    background-color: var(--container-bg-color);
-    color: var(--text-color);
-    border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
-    padding: 10px;
-    margin: 0;
+    padding: 0;
+    gap: 12px;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
   }
 
   .chartContainer {
-    width: 275px;
+    width: 100%;
     flex-grow: 1;
+    min-height: 260px;
   }
 
   .taskStatistics {
-    width: 275px;
+    width: 100%;
   }
 
   .taskStatistics div {

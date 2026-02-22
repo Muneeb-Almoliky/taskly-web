@@ -1,63 +1,100 @@
-
 .profile {
-    position: relative;
-    width: fit-content;
-    top: 1rem;
-    left: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  position: relative;
+  width: fit-content;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.profile > div:first-child img {
+  border-radius: 50%;
+  border: 2px solid var(--border);
 }
 
 .email {
-    font-size: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .editBtn {
-    color: var(--text-color);
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 3px;
-    margin-top: 5px;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border) !important;
+  background-color: transparent !important;
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all var(--ease);
+}
+
+.editBtn:hover {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  background-color: var(--accent-subtle) !important;
 }
 
 .noProfilePicture {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: #8080804d;
-    display: grid;
-    place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--bg-hover);
+  border: 2px solid var(--border);
+  display: grid;
+  place-items: center;
+}
+
+.noProfilePicture svg {
+  color: var(--text-muted) !important;
 }
 
 .editProfile {
-    position: relative;
-    display: grid;
-    gap: 4rem;
+  position: relative;
+  display: grid;
+  gap: 24px;
+  width: 100%;
 }
 
 .editProfile > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editProfile h3 {
+  font-weight: 600;
+  font-size: 15px;
 }
 
 .editProfile div button {
-    font-size: 1.5rem;
-    color: inherit;
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: color var(--ease);
+}
+
+.editProfile div button:hover {
+  color: var(--text-primary);
 }
 
 .uploadBtn {
-    color: var(--text-color);
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding-inline: 10px;
-    padding-block: 5px;
-    font-size: 1rem !important;
+  color: var(--text-on-accent) !important;
+  border: none !important;
+  background-color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+  padding: 6px 16px;
+  font-size: 13px !important;
+  font-weight: 500;
+  transition: all var(--ease);
 }
 
-
-
-
-
-
+.uploadBtn:hover {
+  background-color: var(--accent-hover) !important;
+}

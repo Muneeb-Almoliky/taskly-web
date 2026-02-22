@@ -1,73 +1,104 @@
 .listHeader {
-  background-color: var(--container-bg-color);
-  position: absolute;
+  background-color: var(--bg-secondary);
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  max-width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: var(--container-bg-color) 2px solid;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  width: calc(100vw-40px);
-  border-radius: 5px;
-  overflow-x: hidden;
+  padding: 0 24px;
+  height: 56px;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
 }
 
 .listHeader h1 {
   margin: 0;
-  font-size: 1.5em;
-  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .buttonContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 10px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .buttonContainer div {
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
 .buttonContainer button {
-  margin: 0 5px;
-  padding: 5px 10px;
-  font-size: 10px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 500;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  background-color: transparent;
-}
-
-.signoutBtn {
-  background-color: var(--body-bg-color);
-  color: var(--text-color);
-  border: 1px solid #ccc !important;
-  padding-block: 0 !important;
-  height: 35px;
+  transition: all var(--ease);
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .buttonContainer button:hover {
-  opacity: 0.8;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.signoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.signoutBtn:hover {
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+  background-color: var(--danger-subtle) !important;
+}
+
+@media (max-width: 1000px) {
+  .listHeader {
+    padding-left: 56px;
+  }
 }
 
 @media (max-width: 700px) {
   .listHeader {
-    padding-inline: 5px 0;
+    padding-left: 48px;
+    padding-right: 12px;
+    height: 48px;
   }
   .signoutBtn span {
     display: none;
   }
+  .listHeader h1 {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 410px) {
+  .listHeader {
+    padding-left: 44px;
+    height: 48px;
+  }
   .listHeader h1 {
-    padding-left: 25px;
+    font-size: 13px;
   }
 }

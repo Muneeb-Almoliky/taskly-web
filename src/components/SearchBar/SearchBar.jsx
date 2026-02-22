@@ -10,6 +10,14 @@ const SearchBar = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const searchRef = useRef(null);
   
+    useEffect(() => {
+      if (isSearchOpen) {
+        document.body.classList.add("search-active");
+      } else {
+        document.body.classList.remove("search-active");
+      }
+      return () => document.body.classList.remove("search-active");
+    }, [isSearchOpen]);
 
     useEffect(() => {
       const handleClickOutside = (event) => {

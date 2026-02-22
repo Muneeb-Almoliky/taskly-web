@@ -7,24 +7,27 @@ import styles from "./Auth.module.css";
 const Auth = () => {
   const [isLogIn, setIsLogIn] = useState(true);
   const [cookie, setCookie] = useCookies();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const { auth, setAuth } = useAuth();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const viewLogin = (status) => {
     setError(null);
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
     setIsLogIn(status);
   };
+
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const isValidPassword = (password) => {
-    // At least 8 characters, one uppercase letter, one number.
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]:;"'<>,.?/~`|-]{8,}$/;
     return passwordRegex.test(password);
@@ -32,22 +35,35 @@ const Auth = () => {
 
   const handleSubmit = async (e, endpoint) => {
     e.preventDefault();
+
+    // Validate on both login and signup
+    if (!email || !email.trim()) {
+      setError("Please enter your email");
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setError("Enter a valid email address");
+      return;
+    }
+    if (!password || !password.trim()) {
+      setError("Please enter your password");
+      return;
+    }
+
     if (!isLogIn) {
-      if (!isValidEmail(email)) {
-        setError("Enter a valid email!");
-        return;
-      }
       if (!isValidPassword(password)) {
         setError(
-          "Password must be at least 8 characters with one number and one uppercase letter!"
+          "Password must be at least 8 characters with one number and one uppercase letter"
         );
         return;
       }
       if (password !== confirmPassword) {
-        setError("Make sure passwords match");
+        setError("Passwords do not match");
         return;
       }
     }
+
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `/auth/${endpoint}`,
@@ -61,28 +77,28 @@ const Auth = () => {
         }
       );
       if (response.data.accessToken) {
-        setAuth((prev) => {
-          console.log(JSON.stringify(prev));
-          console.log(response.data.accessToken);
-          return { ...prev, accessToken: response.data.accessToken };
-        });
-        setCookie("email", email, { path: "/", maxAge: 60 * 60 * 24 * 1000}); 
+        setAuth((prev) => ({
+          ...prev,
+          accessToken: response.data.accessToken,
+        }));
+        setCookie("email", email, { path: "/", maxAge: 60 * 60 * 24 * 1000 });
       }
     } catch (err) {
-      console.log(error);
       if (!err?.response) {
-        setError("No Server Response");
+        setError("No server response");
       } else if (err.response?.status === 400) {
-        setError("Missing Username or Password");
+        setError("Missing email or password");
       } else if (err.response?.status === 401) {
-        setError("Unauthorized");
+        setError("Invalid email or password");
       } else if (err.response?.status === 409) {
-        setError("User already exists!");
+        setError("An account with this email already exists");
       } else if (err.response?.status === 404) {
-        setError("User is not found");
+        setError("Account not found");
       } else {
-        setError(`${isLogIn ? "Login" : "Signup"} Failed`);
+        setError(`${isLogIn ? "Login" : "Signup"} failed. Please try again.`);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -94,30 +110,34 @@ const Auth = () => {
     <div className={styles.authContainer}>
       <div className={styles.authContainerBox}>
         <form>
-          <h2>{isLogIn ? "Please log in" : "Please sign up"}</h2>
+          <h2>{isLogIn ? "Log in" : "Create account"}</h2>
           <input
             type="email"
-            placeholder="email"
+            placeholder="Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
-          ></input>
+          />
           <input
             type="password"
-            placeholder="password"
+            placeholder="Password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
-          ></input>
+          />
           {!isLogIn && (
             <input
               type="password"
-              placeholder="confirm password"
+              placeholder="Confirm password"
+              value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           )}
           <input
             type="submit"
-            className="create"
+            value={isLoading ? "Please wait..." : isLogIn ? "Log in" : "Sign up"}
+            disabled={isLoading}
             onClick={(e) => handleSubmit(e, isLogIn ? "login" : "signup")}
-          ></input>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          />
+          {error && <p className={styles.errorMessage}>{error}</p>}
         </form>
         <div className={styles.authOptions}>
           <button

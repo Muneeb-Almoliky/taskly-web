@@ -45,7 +45,17 @@ const App = () => {
   }, [auth]);
 
   if (isAuthenticating) {
-    return <BeatLoader />; // Temporary loading spinner or placeholder
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        background: 'var(--bg-primary)'
+      }}>
+        <BeatLoader color="#6366F1" size={10} />
+      </div>
+    );
   }
 
   return (

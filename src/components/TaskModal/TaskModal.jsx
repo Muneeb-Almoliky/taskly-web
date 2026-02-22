@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
-// import axios from "../api/axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useTasks from "../../hooks/useTasks";
 import styles from "./TaskModal.module.css";
@@ -14,7 +13,7 @@ const TaskModal = ({ mode, setShowModal, task }) => {
   const axiosPrivate = useAxiosPrivate();
   const { getTasks } = useTasks();
 
-  const editMode = mode === "edit" ? true : false;
+  const editMode = mode === "edit";
 
   const [data, setData] = useState({
     user_email: editMode ? task.user_email : cookies.email,
@@ -24,38 +23,50 @@ const TaskModal = ({ mode, setShowModal, task }) => {
     date: editMode ? task.date : new Date(),
   });
 
+  const [error, setError] = useState("");
+
+  const validateTitle = () => {
+    if (!data.title || !data.title.trim()) {
+      setError("Task title cannot be empty");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
   const postData = async (e) => {
     e.preventDefault();
+    if (!validateTitle()) return;
+
     try {
       const response = await axiosPrivate.post(`/tasks`, data, {
         headers: { "Content-type": "application/json" },
       });
       if (response.status === 201) {
         setShowModal(false);
-        Toast.success("Task have been created successfully!");
+        Toast.success("Task created successfully!");
       }
       getTasks();
     } catch (error) {
-      console.log(error);
       Toast.error("Error: could not create task");
     }
   };
 
   const editData = async (e) => {
     e.preventDefault();
+    if (!validateTitle()) return;
+
     try {
       const response = await axiosPrivate.put(`/tasks/${task.id}`, data, {
         headers: { "Content-type": "application/json" },
       });
 
       if (response.status === 200) {
-        setShowModal(false);
-        Toast.success("Task have been edited successfully!");
+        Toast.success("Task updated successfully!");
       }
       setShowModal(false);
       getTasks();
     } catch (error) {
-      console.log(error);
       Toast.error("Error: could not edit task");
     }
   };
@@ -66,12 +77,13 @@ const TaskModal = ({ mode, setShowModal, task }) => {
       ...data,
       [name]: value,
     }));
+    if (error) setError("");
   };
 
   return (
     <Modal>
       <div className={styles.formTitleContainer}>
-        <h3>Let's {mode} your task</h3>
+        <h3>{editMode ? "Edit task" : "New task"}</h3>
         <button onClick={() => setShowModal(false)}>
           <FontAwesomeIcon icon={faClose} />
         </button>
@@ -81,16 +93,18 @@ const TaskModal = ({ mode, setShowModal, task }) => {
           type="text"
           required
           maxLength={30}
-          placeholder="Type Your Task"
+          placeholder="What needs to be done?"
           name="title"
           value={data.title}
           onChange={handleChange}
-        ></input>
+        />
+        {error && <p className={styles.validationError}>{error}</p>}
         <input
           className={mode}
           type="submit"
+          value={editMode ? "Save changes" : "Add task"}
           onClick={editMode ? editData : postData}
-        ></input>
+        />
       </form>
     </Modal>
   );
