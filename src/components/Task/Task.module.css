@@ -36,6 +36,23 @@
   line-height: 1.4;
 }
 
+.statusGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.taskDueDate {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+}
+
 .taskStatus {
   margin: 0;
   font-size: 12px;

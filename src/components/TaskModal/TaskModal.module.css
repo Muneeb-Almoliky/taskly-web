@@ -34,7 +34,19 @@
 form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputGroup span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 form input {

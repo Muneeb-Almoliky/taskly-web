@@ -7,6 +7,7 @@ import {
   faEdit,
   faStar,
   faArchive,
+  faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Task.module.css";
 import TaskModal from "../TaskModal/TaskModal";
@@ -89,15 +90,26 @@ const Task = ({ task }) => {
       <div className={styles.infoContainer}>
         <div className={styles.taskDetails}>
           <p className={styles.taskTilte}>{task.title}</p>
-          <p
-            className={`${styles.taskStatus} ${
-              task.completion_status
-                ? styles.taskStatusCompleted
-                : styles.taskStatusPending
-            }`}
-          >
-            {task.completion_status ? "completed" : "pending"}
-          </p>
+          <div className={styles.statusGroup}>
+            <p
+              className={`${styles.taskStatus} ${
+                task.completion_status
+                  ? styles.taskStatusCompleted
+                  : styles.taskStatusPending
+              }`}
+            >
+              {task.completion_status ? "completed" : "pending"}
+            </p>
+            {task.due_date && (
+              <p className={styles.taskDueDate}>
+                <FontAwesomeIcon icon={faCalendar} />
+                {new Date(task.due_date).toLocaleDateString(undefined, {
+                  month: 'short',
+                  day: 'numeric'
+                })}
+              </p>
+            )}
+          </div>
         </div>
       </div>
       <div className={styles.buttonContainer}>

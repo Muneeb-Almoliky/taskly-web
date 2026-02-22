@@ -18,6 +18,7 @@ const TaskModal = ({ mode, setShowModal, task }) => {
   const [data, setData] = useState({
     user_email: editMode ? task.user_email : cookies.email,
     title: editMode ? task.title : "",
+    due_date: editMode && task.due_date ? task.due_date.split('T')[0] : "",
     completionStatus: editMode ? task.completion_status : false,
     starredStatus: editMode ? task.starred_status : false,
     date: editMode ? task.date : new Date(),
@@ -38,8 +39,13 @@ const TaskModal = ({ mode, setShowModal, task }) => {
     e.preventDefault();
     if (!validateTitle()) return;
 
+    const payload = {
+      ...data,
+      due_date: data.due_date === "" ? null : data.due_date,
+    };
+
     try {
-      const response = await axiosPrivate.post(`/tasks`, data, {
+      const response = await axiosPrivate.post(`/tasks`, payload, {
         headers: { "Content-type": "application/json" },
       });
       if (response.status === 201) {
@@ -56,8 +62,13 @@ const TaskModal = ({ mode, setShowModal, task }) => {
     e.preventDefault();
     if (!validateTitle()) return;
 
+    const payload = {
+      ...data,
+      due_date: data.due_date === "" ? null : data.due_date,
+    };
+
     try {
-      const response = await axiosPrivate.put(`/tasks/${task.id}`, data, {
+      const response = await axiosPrivate.put(`/tasks/${task.id}`, payload, {
         headers: { "Content-type": "application/json" },
       });
 
@@ -89,15 +100,27 @@ const TaskModal = ({ mode, setShowModal, task }) => {
         </button>
       </div>
       <form>
-        <input
-          type="text"
-          required
-          maxLength={30}
-          placeholder="What needs to be done?"
-          name="title"
-          value={data.title}
-          onChange={handleChange}
-        />
+        <label className={styles.inputGroup}>
+          <span>Task Title</span>
+          <input
+            type="text"
+            required
+            maxLength={30}
+            placeholder="What needs to be done?"
+            name="title"
+            value={data.title}
+            onChange={handleChange}
+          />
+        </label>
+        <label className={styles.inputGroup}>
+          <span>Due Date (Optional)</span>
+          <input
+            type="date"
+            name="due_date"
+            value={data.due_date || ""}
+            onChange={handleChange}
+          />
+        </label>
         {error && <p className={styles.validationError}>{error}</p>}
         <input
           className={mode}
